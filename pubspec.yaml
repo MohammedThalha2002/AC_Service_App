@@ -36,6 +36,13 @@ dependencies:
   cupertino_icons: ^1.0.2
   get: ^4.6.1
   pinput: ^1.2.2
+  dropdown_button2: ^1.1.1
+  lottie: ^1.2.1
+  url_launcher: ^6.0.20
+
+  # Firebase
+  firebase_core: ^1.12.0
+  firebase_auth:
 
 dev_dependencies:
   flutter_test:
@@ -76,11 +83,11 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Poppins
+    - family: Montserrat
       fonts:
-        - asset: fonts/Poppins-Regular.ttf
-        - asset: fonts/Poppins-Medium.ttf
-        - asset: fonts/Poppins-Bold.ttf
+        - asset: fonts/Montserrat-Regular.ttf
+        - asset: fonts/Montserrat-Medium.ttf
+        - asset: fonts/Montserrat-Bold.ttf
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:
