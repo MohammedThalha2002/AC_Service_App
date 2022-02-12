@@ -1,6 +1,8 @@
 import 'package:ac_service_app/pages/phone_verification.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -12,6 +14,9 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
+  String? name;
+  String? phoneNumber;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -66,6 +71,9 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       hintText: "Name",
                     ),
+                    onChanged: (value) {
+                      name = value;
+                    },
                   ),
                 ),
                 SizedBox(
@@ -85,6 +93,9 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       hintText: "Phone Number",
                     ),
+                    onChanged: (value) {
+                      phoneNumber = value;
+                    },
                   ),
                 ),
                 Spacer(),
@@ -98,13 +109,37 @@ class _LoginPageState extends State<LoginPage> {
                       borderRadius: BorderRadius.circular(16),
                     ),
                   ),
-                  onPressed: () {
-                    Get.to(
-                      phoneVerification(),
-                      transition: Transition.native,
-                      curve: Curves.easeIn,
-                      duration: Duration(seconds: 1),
-                    );
+                  onPressed: () async {
+                    if (name != null && phoneNumber != null) {
+                      Get.to(
+                        phoneVerification(
+                          phoneNumber: phoneNumberController.text,
+                          name: nameController.text,
+                        ),
+                        transition: Transition.native,
+                        curve: Curves.easeIn,
+                        duration: Duration(seconds: 1),
+                      );
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) => new AlertDialog(
+                          title: Lottie.asset(
+                            'assets/alert.json',
+                            width: 100,
+                            height: 100,
+                          ),
+                          content: new Text('Please Enter all the fields'),
+                          actions: <Widget>[
+                            new IconButton(
+                                icon: new Icon(Icons.close),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                })
+                          ],
+                        ),
+                      );
+                    }
                   },
                   child: Text(
                     "Login",

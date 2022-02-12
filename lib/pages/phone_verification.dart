@@ -1,10 +1,16 @@
 import 'package:ac_service_app/pages/home_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 
 class phoneVerification extends StatefulWidget {
-  const phoneVerification({Key? key}) : super(key: key);
+  final String phoneNumber;
+  final String name;
+  const phoneVerification(
+      {Key? key, required this.phoneNumber, required this.name})
+      : super(key: key);
 
   @override
   _phoneVerificationState createState() => _phoneVerificationState();
@@ -21,8 +27,48 @@ class _phoneVerificationState extends State<phoneVerification> {
     );
   }
 
-  //VAR
-  String _pin = "";
+  final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
+  String? _verificationCode;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  User? user = FirebaseAuth.instance.currentUser;
+  _verifyPhone() async {
+    await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: '+91${widget.phoneNumber}',
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          await FirebaseAuth.instance
+              .signInWithCredential(credential)
+              .then((value) async {
+            if (value.user != null) {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()),
+                  (route) => false);
+            }
+          });
+        },
+        verificationFailed: (FirebaseAuthException e) {
+          print(e.message);
+        },
+        codeSent: (String verficationID, int? resendToken) {
+          setState(() {
+            _verificationCode = verficationID;
+          });
+        },
+        codeAutoRetrievalTimeout: (String verificationID) {
+          setState(() {
+            _verificationCode = verificationID;
+          });
+        },
+        timeout: Duration(seconds: 120));
+  }
+
+  @override
+  void initState() {
+    _verifyPhone();
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -71,7 +117,7 @@ class _phoneVerificationState extends State<phoneVerification> {
                   height: 10,
                 ),
                 Text(
-                  "Enter the one time password sent to \n +91 9199191919",
+                  "Enter the one time password sent to \n +91-${widget.phoneNumber}",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 16,
@@ -82,9 +128,9 @@ class _phoneVerificationState extends State<phoneVerification> {
                   height: 40,
                 ),
                 PinPut(
-                  fieldsCount: 4,
+                  fieldsCount: 6,
                   eachFieldConstraints:
-                      BoxConstraints(minHeight: 60.0, minWidth: 60.0),
+                      BoxConstraints(minHeight: 50.0, minWidth: 50.0),
                   focusNode: _pinPutFocusNode,
                   controller: _pinPutController,
                   submittedFieldDecoration: _pinPutDecoration.copyWith(
@@ -97,10 +143,38 @@ class _phoneVerificationState extends State<phoneVerification> {
                       color: Colors.deepPurpleAccent.withOpacity(.5),
                     ),
                   ),
-                  onSubmit: (String pin) {
-                    setState(() {
-                      _pin = pin;
-                    });
+                  onSubmit: (String pin) async {
+                    try {
+                      await FirebaseAuth.instance
+                          .signInWithCredential(PhoneAuthProvider.credential(
+                              verificationId: _verificationCode!, smsCode: pin))
+                          .then((value) async {
+                        if (value.user != null) {
+                          try {
+                            await firestore
+                                .collection("Users")
+                                .doc(value.user!.uid)
+                                .collection("Details")
+                                .doc("details")
+                                .set({
+                              "name": widget.name,
+                            });
+                          } on Exception catch (e) {
+                            // TODO
+                            print("something went wrong");
+                          }
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HomePage()),
+                              (route) => false);
+                        }
+                      });
+                    } catch (e) {
+                      FocusScope.of(context).unfocus();
+                      _scaffoldkey.currentState!
+                          .showSnackBar(SnackBar(content: Text('invalid OTP')));
+                    }
                   },
                 ),
                 Spacer(),
@@ -115,13 +189,12 @@ class _phoneVerificationState extends State<phoneVerification> {
                     ),
                   ),
                   onPressed: () {
-                    print(_pin);
-                    Get.to(
-                      HomePage(),
-                      transition: Transition.fadeIn,
-                      curve: Curves.easeIn,
-                      duration: Duration(milliseconds: 500),
-                    );
+                    // Get.to(
+                    //   HomePage(),
+                    //   transition: Transition.fadeIn,
+                    //   curve: Curves.easeIn,
+                    //   duration: Duration(milliseconds: 500),
+                    // );
                   },
                   child: Text(
                     "Verify",
