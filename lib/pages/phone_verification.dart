@@ -158,6 +158,7 @@ class _phoneVerificationState extends State<phoneVerification> {
                                 .doc("details")
                                 .set({
                               "name": widget.name,
+                              "phoneNumber": widget.phoneNumber,
                             });
                           } on Exception catch (e) {
                             // TODO
@@ -188,14 +189,7 @@ class _phoneVerificationState extends State<phoneVerification> {
                       borderRadius: BorderRadius.circular(16),
                     ),
                   ),
-                  onPressed: () {
-                    // Get.to(
-                    //   HomePage(),
-                    //   transition: Transition.fadeIn,
-                    //   curve: Curves.easeIn,
-                    //   duration: Duration(milliseconds: 500),
-                    // );
-                  },
+                  onPressed: () {},
                   child: Text(
                     "Verify",
                     style: TextStyle(

@@ -5,9 +5,18 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../backend/send_notification.dart';
 
 class Service extends StatefulWidget {
-  const Service({Key? key}) : super(key: key);
+  final String tokenId;
+  final String name;
+  final String phoneNumber;
+  const Service({
+    Key? key,
+    required this.tokenId,
+    required this.name,
+    required this.phoneNumber,
+  }) : super(key: key);
 
   @override
   _ServiceState createState() => _ServiceState();
@@ -41,17 +50,25 @@ class _ServiceState extends State<Service> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   User? user = FirebaseAuth.instance.currentUser;
   addDetails() async {
-    await firestore.collection("Users").doc(user!.uid).collection("History").add({
+    await firestore
+        .collection("Users")
+        .doc(user!.uid)
+        .collection("History")
+        .add({
       "brand": brandValue,
       "capacity": capacityValue,
       "service": serviceValue,
-      "type" : "Service"
+      "type": "Service",
+      "date": DateTime.now().toString(),
     });
     await firestore.collection("Orders").add({
+      "name": widget.name,
+      "phoneNumber": widget.phoneNumber,
       "brand": brandValue,
       "capacity": capacityValue,
       "service": serviceValue,
-      "type" : "Service"
+      "type": "Service",
+      "date": DateTime.now().toString(),
     }).whenComplete(
       () => showDialog(
         context: context,
@@ -439,6 +456,12 @@ class _ServiceState extends State<Service> {
                                   capacityValue != null &&
                                   serviceValue != null) {
                                 addDetails();
+                                sendNotification(
+                                  tokenIdList: [widget.tokenId],
+                                  heading: "Service Request",
+                                  contents:
+                                      "A service request from the customer",
+                                );
                               } else {
                                 showDialog(
                                   context: context,

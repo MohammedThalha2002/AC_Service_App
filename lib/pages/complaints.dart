@@ -3,9 +3,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import '../backend/send_notification.dart';
 
 class Complaints extends StatefulWidget {
-  const Complaints({Key? key}) : super(key: key);
+  final String tokenId;
+  final String name;
+  final String phoneNumber;
+  const Complaints({
+    Key? key,
+    required this.tokenId,
+    required this.name,
+    required this.phoneNumber,
+  }) : super(key: key);
 
   @override
   _ComplaintsState createState() => _ComplaintsState();
@@ -21,17 +30,23 @@ class _ComplaintsState extends State<Complaints> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   User? user = FirebaseAuth.instance.currentUser;
   addDetails() async {
-    await firestore.collection("Users").doc(user!.uid).collection("History").add({
+    await firestore
+        .collection("Users")
+        .doc(user!.uid)
+        .collection("History")
+        .add({
       "name": name,
       "number": phoneNumber,
       "complaint": complaints,
-      "type": "Complaint"
+      "type": "Complaint",
+      "date": DateTime.now().toString(),
     });
     await firestore.collection("Orders").add({
       "name": name,
       "number": phoneNumber,
       "complaint": complaints,
-      "type": "Complaint"
+      "type": "Complaint",
+      "date": DateTime.now().toString(),
     }).whenComplete(
       () => showDialog(
         context: context,
@@ -250,6 +265,12 @@ class _ComplaintsState extends State<Complaints> {
                                       phoneNumber != null &&
                                       complaints != null) {
                                     addDetails();
+                                    sendNotification(
+                                      tokenIdList: [widget.tokenId],
+                                      heading: "Installation Request",
+                                      contents:
+                                          "An Installation request from the customer",
+                                    );
                                   } else {
                                     showDialog(
                                       context: context,

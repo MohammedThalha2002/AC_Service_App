@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp> {
     //Remove this method to stop OneSignal Debugging
     OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
 
-    OneSignal.shared.setAppId("c425b3c0-b095-4fc6-a073-8c2fb2b371d4");
+    OneSignal.shared.setAppId("c5a79fcd-73d4-4ce0-8190-638459f8705a");
 
 // The promptForPushNotificationsWithUserResponse function will show the iOS push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
     OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
@@ -40,7 +40,7 @@ class _MyAppState extends State<MyApp> {
     });
     var status = await OneSignal.shared.getDeviceState();
     String tokenId = status!.userId!;
-    print(tokenId);
+    print("Token Id of this Device : " + tokenId);
   }
 
   // This widget is the root of your application.

@@ -1,14 +1,22 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import '../backend/send_notification.dart';
 
 class Installation extends StatefulWidget {
-  const Installation({Key? key}) : super(key: key);
+  final String tokenId;
+  final String name;
+  final String phoneNumber;
+  const Installation({
+    Key? key,
+    required this.tokenId,
+    required this.name,
+    required this.phoneNumber,
+  }) : super(key: key);
 
   @override
   _InstallationState createState() => _InstallationState();
@@ -42,17 +50,25 @@ class _InstallationState extends State<Installation> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   User? user = FirebaseAuth.instance.currentUser;
   addDetails() async {
-    await firestore.collection("Users").doc(user!.uid).collection("History").add({
+    await firestore
+        .collection("Users")
+        .doc(user!.uid)
+        .collection("History")
+        .add({
       "brand": brandValue,
       "capacity": capacityValue,
       "service": serviceValue,
-      "type" : "Installation"
+      "type": "Installation",
+      "date": DateTime.now().toString(),
     });
     await firestore.collection("Orders").add({
+      "name": widget.name,
+      "phoneNumber" : widget.phoneNumber,
       "brand": brandValue,
       "capacity": capacityValue,
       "service": serviceValue,
-      "type" : "Installation"
+      "type": "Installation",
+      "date": DateTime.now().toString(),
     }).whenComplete(
       () => showDialog(
         context: context,
@@ -431,6 +447,12 @@ class _InstallationState extends State<Installation> {
                                   capacityValue != null &&
                                   serviceValue != null) {
                                 addDetails();
+                                sendNotification(
+                                  tokenIdList: [widget.tokenId],
+                                  heading: "Installation Request",
+                                  contents:
+                                      "An Installation request from the customer",
+                                );
                               } else {
                                 showDialog(
                                   context: context,

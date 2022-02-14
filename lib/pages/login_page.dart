@@ -82,6 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                 Padding(
                   padding: EdgeInsets.all(12),
                   child: TextField(
+                    maxLength: 10,
                     controller: phoneNumberController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -109,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
                       borderRadius: BorderRadius.circular(16),
                     ),
                   ),
-                  onPressed: () async {
+                  onPressed: () {
                     if (name != null && phoneNumber != null) {
                       Get.to(
                         phoneVerification(

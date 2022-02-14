@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:ac_service_app/pages/complaints.dart';
 import 'package:ac_service_app/pages/installation.dart';
 import 'package:ac_service_app/pages/login_page.dart';
+import 'package:ac_service_app/pages/orders.dart';
 import 'package:ac_service_app/pages/service.dart';
 import 'package:ac_service_app/pages/support.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -26,35 +27,6 @@ class _HomePageState extends State<HomePage> {
     if (!await launch(_url)) throw 'Could not launch $_url';
   }
 
-  Future sendNotification(
-      List<String> tokenIdList, String contents, String heading) async {
-    return await post(
-      Uri.parse('https://onesignal.com/api/v1/notifications'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, dynamic>{
-        "app_id":
-            "c425b3c0-b095-4fc6-a073-8c2fb2b371d4", //kAppId is the App Id that one get from the OneSignal When the application is registered.
-
-        "include_player_ids":
-            tokenIdList, //tokenIdList Is the List of All the Token Id to to Whom notification must be sent.
-
-        // android_accent_color reprsent the color of the heading text in the notifiction
-        "android_accent_color": "FF9976D2",
-
-        "small_icon": "ic_stat_onesignal_default",
-
-        "large_icon":
-            "https://www.filepicker.io/api/file/zPloHSmnQsix82nlj9Aj?filename=name.jpg",
-
-        "headings": {"en": heading},
-
-        "contents": {"en": contents},
-      }),
-    );
-  }
-
   User? user = FirebaseAuth.instance.currentUser;
   int _currentPage = 0;
   Timer? _timer;
@@ -62,7 +34,9 @@ class _HomePageState extends State<HomePage> {
     initialPage: 0,
   );
   String name = "";
+  String phoneNumber = "";
   String initialLetter = "";
+  String tokenId = "";
 
   @override
   void initState() {
@@ -84,6 +58,19 @@ class _HomePageState extends State<HomePage> {
   }
 
   gettingData() async {
+    //tokenID
+    await FirebaseFirestore.instance
+        .collection('admin')
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        setState(() {
+          tokenId = doc["tokenId"];
+        });
+      });
+    });
+    print("Getting data from firestore" + tokenId);
+    // Username
     await FirebaseFirestore.instance
         .collection('Users')
         .doc(user!.uid)
@@ -93,6 +80,7 @@ class _HomePageState extends State<HomePage> {
       querySnapshot.docs.forEach((doc) {
         setState(() {
           name = doc["name"];
+          phoneNumber = doc['phoneNumber'];
         });
       });
     });
@@ -141,7 +129,12 @@ class _HomePageState extends State<HomePage> {
             ),
             ListTile(
               title: Text("Orders"),
-              trailing: Icon(Icons.arrow_forward),
+              trailing: IconButton(
+                onPressed: () {
+                  Get.to(Orders());
+                },
+                icon: Icon(Icons.arrow_forward),
+              ),
             ),
             Divider(),
             ListTile(
@@ -227,11 +220,23 @@ class _HomePageState extends State<HomePage> {
                       if (imgIndex == 1) {
                       } else if (imgIndex == 2) {
                       } else if (imgIndex == 3) {
-                        Get.to(Service());
+                        Get.to(Service(
+                          tokenId: tokenId,
+                          name: name,
+                          phoneNumber : phoneNumber,
+                        ));
                       } else if (imgIndex == 4) {
-                        Get.to(Installation());
+                        Get.to(Installation(
+                          tokenId: tokenId,
+                          name: name,
+                          phoneNumber : phoneNumber,
+                        ));
                       } else if (imgIndex == 5) {
-                        Get.to(Complaints());
+                        Get.to(Complaints(
+                          tokenId: tokenId,
+                          name: name,
+                          phoneNumber : phoneNumber,
+                        ));
                       } else if (imgIndex == 6) {
                         Get.to(Support());
                       } else if (imgIndex == 7) {
@@ -265,13 +270,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        sendNotification(
-          ["874b01f8-8c2c-11ec-9e4d-defd0f96100a"],
-          "This is a Notification Demo",
-          "Hi Guys",
-        );
-      }),
     );
   }
 }
