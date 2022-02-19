@@ -120,206 +120,202 @@ class _ComplaintsState extends State<Complaints> {
                   ),
                 ),
               ),
-              SingleChildScrollView(
-                child: Center(
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 220,
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height - 258,
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        padding: EdgeInsets.only(left: 12, right: 12),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(30),
-                            topRight: Radius.circular(30),
+              Center(
+                child: Column(
+                  children: [
+                    Spacer(),
+                    Container(
+                      height: MediaQuery.of(context).size.height - 258,
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      padding: EdgeInsets.only(left: 12, right: 12),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.4),
+                            spreadRadius: 6,
+                            blurRadius: 3,
+                            offset: Offset(0, 3),
                           ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.4),
-                              spreadRadius: 6,
-                              blurRadius: 3,
-                              offset: Offset(0, 3),
+                        ],
+                      ),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 18,
+                                  vertical: 4,
+                                ),
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(14),
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.4),
+                                      offset: Offset(2, 5),
+                                      blurRadius: 5,
+                                      spreadRadius: 4,
+                                    ),
+                                  ],
+                                ),
+                                child: TextField(
+                                  controller: nameController,
+                                  decoration: InputDecoration(
+                                    hintText: "Name",
+                                    border: InputBorder.none,
+                                  ),
+                                  onChanged: (value) {
+                                    name = value;
+                                  },
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 18,
+                                  vertical: 4,
+                                ),
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(14),
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.4),
+                                      offset: Offset(2, 5),
+                                      blurRadius: 5,
+                                      spreadRadius: 4,
+                                    ),
+                                  ],
+                                ),
+                                child: TextField(
+                                  controller: phoneNumberController,
+                                  keyboardType: TextInputType.phone,
+                                  decoration: InputDecoration(
+                                    hintText: "Contact Number",
+                                    border: InputBorder.none,
+                                  ),
+                                  onChanged: (value) {
+                                    phoneNumber = value;
+                                  },
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 18,
+                                  vertical: 4,
+                                ),
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(14),
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.4),
+                                      offset: Offset(2, 5),
+                                      blurRadius: 5,
+                                      spreadRadius: 4,
+                                    ),
+                                  ],
+                                ),
+                                child: TextField(
+                                  controller: complaintsController,
+                                  maxLines: 5,
+                                  decoration: InputDecoration(
+                                    hintText: "Write Your Complaints here",
+                                    border: InputBorder.none,
+                                  ),
+                                  onChanged: (value) {
+                                    complaints = value;
+                                  },
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 50,
+                            ),
+                            InkWell(
+                              onTap: () {
+                                if (name != null &&
+                                    phoneNumber != null &&
+                                    complaints != null) {
+                                  addDetails();
+                                  sendNotification(
+                                    tokenIdList: [widget.tokenId],
+                                    heading: "Installation Request",
+                                    contents:
+                                        "An Installation request from the customer",
+                                  );
+                                } else {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        new AlertDialog(
+                                      title: Lottie.asset(
+                                        'assets/alert.json',
+                                        width: 100,
+                                        height: 100,
+                                      ),
+                                      content: new Text(
+                                          'Please enter all the fields'),
+                                      actions: <Widget>[
+                                        new IconButton(
+                                            icon: new Icon(Icons.close),
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            })
+                                      ],
+                                    ),
+                                  );
+                                }
+                              },
+                              child: Container(
+                                width: double.infinity,
+                                padding: EdgeInsets.all(12),
+                                margin: EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFA0E28A),
+                                  borderRadius: BorderRadius.circular(18),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "SUBMIT",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
                           ],
                         ),
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(12),
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 18,
-                                    vertical: 4,
-                                  ),
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(14),
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.4),
-                                        offset: Offset(2, 5),
-                                        blurRadius: 5,
-                                        spreadRadius: 4,
-                                      ),
-                                    ],
-                                  ),
-                                  child: TextField(
-                                    controller: nameController,
-                                    decoration: InputDecoration(
-                                      hintText: "Name",
-                                      border: InputBorder.none,
-                                    ),
-                                    onChanged: (value) {
-                                      name = value;
-                                    },
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(12),
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 18,
-                                    vertical: 4,
-                                  ),
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(14),
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.4),
-                                        offset: Offset(2, 5),
-                                        blurRadius: 5,
-                                        spreadRadius: 4,
-                                      ),
-                                    ],
-                                  ),
-                                  child: TextField(
-                                    controller: phoneNumberController,
-                                    keyboardType: TextInputType.phone,
-                                    decoration: InputDecoration(
-                                      hintText: "Contact Number",
-                                      border: InputBorder.none,
-                                    ),
-                                    onChanged: (value) {
-                                      phoneNumber = value;
-                                    },
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(12),
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 18,
-                                    vertical: 4,
-                                  ),
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(14),
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.4),
-                                        offset: Offset(2, 5),
-                                        blurRadius: 5,
-                                        spreadRadius: 4,
-                                      ),
-                                    ],
-                                  ),
-                                  child: TextField(
-                                    controller: complaintsController,
-                                    maxLines: 5,
-                                    decoration: InputDecoration(
-                                      hintText: "Write Your Complaints here",
-                                      border: InputBorder.none,
-                                    ),
-                                    onChanged: (value) {
-                                      complaints = value;
-                                    },
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 50,
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  if (name != null &&
-                                      phoneNumber != null &&
-                                      complaints != null) {
-                                    addDetails();
-                                    sendNotification(
-                                      tokenIdList: [widget.tokenId],
-                                      heading: "Installation Request",
-                                      contents:
-                                          "An Installation request from the customer",
-                                    );
-                                  } else {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) =>
-                                          new AlertDialog(
-                                        title: Lottie.asset(
-                                          'assets/alert.json',
-                                          width: 100,
-                                          height: 100,
-                                        ),
-                                        content: new Text(
-                                            'Please enter all the fields'),
-                                        actions: <Widget>[
-                                          new IconButton(
-                                              icon: new Icon(Icons.close),
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              })
-                                        ],
-                                      ),
-                                    );
-                                  }
-                                },
-                                child: Container(
-                                  width: double.infinity,
-                                  padding: EdgeInsets.all(12),
-                                  margin: EdgeInsets.all(12),
-                                  decoration: BoxDecoration(
-                                    color: Color(0xFFA0E28A),
-                                    borderRadius: BorderRadius.circular(18),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      "SUBMIT",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
               Positioned(

@@ -172,9 +172,8 @@ class _phoneVerificationState extends State<phoneVerification> {
                         }
                       });
                     } catch (e) {
-                      FocusScope.of(context).unfocus();
-                      _scaffoldkey.currentState!
-                          .showSnackBar(SnackBar(content: Text('invalid OTP')));
+                      Get.snackbar(
+                          "Invalid OTP", "Please enter the correct OTP");
                     }
                   },
                 ),

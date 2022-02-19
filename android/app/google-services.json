@@ -14,11 +14,35 @@
       },
       "oauth_client": [
         {
+          "client_id": "90851506427-9lejreljsbhmprlfpukojn87j50a20bh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mohammedthalha.ac_service_app",
+            "certificate_hash": "6c1b433f8ce7f6861879a65f054f79f4084c442e"
+          }
+        },
+        {
+          "client_id": "90851506427-e4i66qo4vtvkik98k67pu4cr3dje6o5r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mohammedthalha.ac_service_app",
+            "certificate_hash": "124310b53bf1bad42f92e55451b502c1acc5b0bc"
+          }
+        },
+        {
           "client_id": "90851506427-q4bpcflteeee8avl1klgr4qhjb82h4ja.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.mohammedthalha.ac_service_app",
             "certificate_hash": "44ca451797ff1e503c05cf15421388d02a336c27"
+          }
+        },
+        {
+          "client_id": "90851506427-ua4mnm1leronhirc176egucdkd7cpai3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mohammedthalha.ac_service_app",
+            "certificate_hash": "a6a20328851eb1221afc1267fde5c40b7936de1d"
           }
         },
         {

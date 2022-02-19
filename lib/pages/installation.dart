@@ -180,9 +180,7 @@ class _InstallationState extends State<Installation> {
             Center(
               child: Column(
                 children: [
-                  SizedBox(
-                    height: 220,
-                  ),
+                  Spacer(),
                   Container(
                     height: MediaQuery.of(context).size.height - 258,
                     width: MediaQuery.of(context).size.width * 0.9,

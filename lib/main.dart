@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:ac_service_app/pages/home_page.dart';
 import 'package:ac_service_app/pages/login_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -22,10 +23,13 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  String tokenId = "";
   @override
   void initState() {
     super.initState();
-    configOneSignel();
+    configOneSignel().then(
+      (value) => saveTokenId(),
+    );
   }
 
   Future<void> configOneSignel() async {
@@ -39,8 +43,15 @@ class _MyAppState extends State<MyApp> {
       print("Accepted permission: $accepted");
     });
     var status = await OneSignal.shared.getDeviceState();
-    String tokenId = status!.userId!;
+    tokenId = status!.userId!;
     print("Token Id of this Device : " + tokenId);
+  }
+
+  Future saveTokenId() async {
+    await FirebaseFirestore.instance.collection("admin").doc("admin").set({
+      "tokenId": tokenId,
+    });
+     print("Token Id is updated to the firestore : " + tokenId);
   }
 
   // This widget is the root of your application.

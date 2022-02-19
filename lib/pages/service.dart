@@ -189,9 +189,7 @@ class _ServiceState extends State<Service> {
             Center(
               child: Column(
                 children: [
-                  SizedBox(
-                    height: 220,
-                  ),
+                  Spacer(),
                   Container(
                     height: MediaQuery.of(context).size.height - 258,
                     width: MediaQuery.of(context).size.width * 0.9,
@@ -205,7 +203,7 @@ class _ServiceState extends State<Service> {
                       boxShadow: [
                         BoxShadow(
                           color: Colors.grey.withOpacity(0.4),
-                          spreadRadius: 6,
+                          spreadRadius: 8,
                           blurRadius: 3,
                           offset: Offset(0, 3),
                         ),
@@ -459,8 +457,7 @@ class _ServiceState extends State<Service> {
                                 sendNotification(
                                   tokenIdList: [widget.tokenId],
                                   heading: "Service Request",
-                                  contents:
-                                      "A service request from the customer",
+                                  contents: "A service request from the customer",
                                 );
                               } else {
                                 showDialog(
@@ -472,8 +469,8 @@ class _ServiceState extends State<Service> {
                                       width: 100,
                                       height: 100,
                                     ),
-                                    content: new Text(
-                                        'Please choose all the fields'),
+                                    content:
+                                        new Text('Please choose all the fields'),
                                     actions: <Widget>[
                                       new IconButton(
                                           icon: new Icon(Icons.close),

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:ac_service_app/pages/complaints.dart';
 import 'package:ac_service_app/pages/installation.dart';
 import 'package:ac_service_app/pages/login_page.dart';
+import 'package:ac_service_app/pages/my_orders.dart';
 import 'package:ac_service_app/pages/orders.dart';
 import 'package:ac_service_app/pages/service.dart';
 import 'package:ac_service_app/pages/support.dart';
@@ -131,7 +132,7 @@ class _HomePageState extends State<HomePage> {
               title: Text("Orders"),
               trailing: IconButton(
                 onPressed: () {
-                  Get.to(Orders());
+                  Get.to(MyOrders());
                 },
                 icon: Icon(Icons.arrow_forward),
               ),
@@ -223,19 +224,19 @@ class _HomePageState extends State<HomePage> {
                         Get.to(Service(
                           tokenId: tokenId,
                           name: name,
-                          phoneNumber : phoneNumber,
+                          phoneNumber: phoneNumber,
                         ));
                       } else if (imgIndex == 4) {
                         Get.to(Installation(
                           tokenId: tokenId,
                           name: name,
-                          phoneNumber : phoneNumber,
+                          phoneNumber: phoneNumber,
                         ));
                       } else if (imgIndex == 5) {
                         Get.to(Complaints(
                           tokenId: tokenId,
                           name: name,
-                          phoneNumber : phoneNumber,
+                          phoneNumber: phoneNumber,
                         ));
                       } else if (imgIndex == 6) {
                         Get.to(Support());
