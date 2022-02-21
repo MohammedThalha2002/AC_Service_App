@@ -264,13 +264,10 @@ class _ComplaintsState extends State<Complaints> {
                                   addDetails();
                                   sendNotification(
                                     tokenIdList: [widget.tokenId],
-                                    heading: "Thank You",
+                                    heading: "Complaint",
                                     contents:
-                                        "Your Complaint has been accepted successfully",
-                                    // heading: "Complaint",
-                                    // contents:
-                                    //     "A Complaint from the customer",
-                                  );
+                                        "A Complaint from the customer",
+                                  ).then((value) => Get.back());
                                 } else {
                                   showDialog(
                                     context: context,

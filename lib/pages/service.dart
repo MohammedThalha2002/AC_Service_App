@@ -456,11 +456,9 @@ class _ServiceState extends State<Service> {
                                 addDetails();
                                 sendNotification(
                                   tokenIdList: [widget.tokenId],
-                                  heading: "Thank You",
-                                  contents: "Your Service Request has been accepted successfully",
-                                  // heading: "Service Request",
-                                  // contents: "A service request from the customer",
-                                );
+                                  heading: "Service Request",
+                                  contents: "A service request from the customer",
+                                ).then((value) => Get.back());
                               } else {
                                 showDialog(
                                   context: context,

@@ -447,13 +447,10 @@ class _InstallationState extends State<Installation> {
                                 addDetails();
                                 sendNotification(
                                   tokenIdList: [widget.tokenId],
-                                  heading: "Thank You",
+                                  heading: "Installation Request",
                                   contents:
-                                      "Your Installation Request has been accepted successfully",
-                                  // heading: "Installation Request",
-                                  // contents:
-                                  //     "An Installation request from the customer",
-                                );
+                                      "An Installation request from the customer",
+                                ).then((value) => Get.back());
                               } else {
                                 showDialog(
                                   context: context,
