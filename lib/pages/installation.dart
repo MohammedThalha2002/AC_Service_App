@@ -63,7 +63,7 @@ class _InstallationState extends State<Installation> {
     });
     await firestore.collection("Orders").add({
       "name": widget.name,
-      "phoneNumber" : widget.phoneNumber,
+      "phoneNumber": widget.phoneNumber,
       "brand": brandValue,
       "capacity": capacityValue,
       "service": serviceValue,
@@ -447,9 +447,12 @@ class _InstallationState extends State<Installation> {
                                 addDetails();
                                 sendNotification(
                                   tokenIdList: [widget.tokenId],
-                                  heading: "Installation Request",
+                                  heading: "Thank You",
                                   contents:
-                                      "An Installation request from the customer",
+                                      "Your Installation Request has been accepted successfully",
+                                  // heading: "Installation Request",
+                                  // contents:
+                                  //     "An Installation request from the customer",
                                 );
                               } else {
                                 showDialog(

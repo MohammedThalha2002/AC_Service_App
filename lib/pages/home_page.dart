@@ -225,6 +225,7 @@ class _HomePageState extends State<HomePage> {
                 height: 25,
               ),
               GridView.builder(
+                physics: NeverScrollableScrollPhysics(),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                   mainAxisSpacing: 30,

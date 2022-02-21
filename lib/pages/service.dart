@@ -456,8 +456,10 @@ class _ServiceState extends State<Service> {
                                 addDetails();
                                 sendNotification(
                                   tokenIdList: [widget.tokenId],
-                                  heading: "Service Request",
-                                  contents: "A service request from the customer",
+                                  heading: "Thank You",
+                                  contents: "Your Service Request has been accepted successfully",
+                                  // heading: "Service Request",
+                                  // contents: "A service request from the customer",
                                 );
                               } else {
                                 showDialog(
@@ -469,8 +471,8 @@ class _ServiceState extends State<Service> {
                                       width: 100,
                                       height: 100,
                                     ),
-                                    content:
-                                        new Text('Please choose all the fields'),
+                                    content: new Text(
+                                        'Please choose all the fields'),
                                     actions: <Widget>[
                                       new IconButton(
                                           icon: new Icon(Icons.close),

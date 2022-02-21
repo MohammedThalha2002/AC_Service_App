@@ -264,9 +264,12 @@ class _ComplaintsState extends State<Complaints> {
                                   addDetails();
                                   sendNotification(
                                     tokenIdList: [widget.tokenId],
-                                    heading: "Installation Request",
+                                    heading: "Thank You",
                                     contents:
-                                        "An Installation request from the customer",
+                                        "Your Complaint has been accepted successfully",
+                                    // heading: "Complaint",
+                                    // contents:
+                                    //     "A Complaint from the customer",
                                   );
                                 } else {
                                   showDialog(

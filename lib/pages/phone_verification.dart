@@ -39,6 +39,20 @@ class _phoneVerificationState extends State<phoneVerification> {
               .signInWithCredential(credential)
               .then((value) async {
             if (value.user != null) {
+              await firestore
+                  .collection("Users")
+                  .doc(value.user!.uid)
+                  .collection("Details")
+                  .doc("details")
+                  .set({
+                "name": widget.name,
+                "phoneNumber": widget.phoneNumber,
+              });
+              Get.snackbar(
+                "AUTOFILLING...",
+                "",
+                snackPosition: SnackPosition.BOTTOM,
+              );
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => HomePage()),
