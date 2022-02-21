@@ -5,6 +5,8 @@ import 'package:ac_service_app/pages/installation.dart';
 import 'package:ac_service_app/pages/login_page.dart';
 import 'package:ac_service_app/pages/my_orders.dart';
 import 'package:ac_service_app/pages/orders.dart';
+import 'package:ac_service_app/pages/our_profile.dart';
+import 'package:ac_service_app/pages/our_projects.dart';
 import 'package:ac_service_app/pages/service.dart';
 import 'package:ac_service_app/pages/support.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -133,6 +135,24 @@ class _HomePageState extends State<HomePage> {
               trailing: IconButton(
                 onPressed: () {
                   Get.to(MyOrders());
+                },
+                icon: Icon(Icons.arrow_forward),
+              ),
+            ),
+            ListTile(
+              title: Text("Our Profile"),
+              trailing: IconButton(
+                onPressed: () {
+                  Get.to(OurProfile());
+                },
+                icon: Icon(Icons.arrow_forward),
+              ),
+            ),
+            ListTile(
+              title: Text("Our Projects"),
+              trailing: IconButton(
+                onPressed: () {
+                  Get.to(OurProjects());
                 },
                 icon: Icon(Icons.arrow_forward),
               ),
