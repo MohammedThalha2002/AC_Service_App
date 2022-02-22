@@ -14,6 +14,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
@@ -40,6 +41,7 @@ class _HomePageState extends State<HomePage> {
   String phoneNumber = "";
   String initialLetter = "";
   String tokenId = "";
+  String savingtokenId = "";
 
   @override
   void initState() {
@@ -57,8 +59,24 @@ class _HomePageState extends State<HomePage> {
         curve: Curves.easeIn,
       );
     });
+    // saveTokenId().then(
+    //   (value) => gettingData(),
+    // );
     gettingData();
   }
+
+  // ******************************
+  // Only for the ADMIN
+  // ******************************
+  // Future saveTokenId() async {
+  //   var status = await OneSignal.shared.getDeviceState();
+  //   savingtokenId = status!.userId!;
+  //   print("Token Id of this Device : " + savingtokenId);
+  //   await FirebaseFirestore.instance.collection("admin").doc("admin").set({
+  //     "tokenId": savingtokenId,
+  //   });
+  //   print("Token Id is updated to the firestore : " + savingtokenId);
+  // }
 
   gettingData() async {
     //tokenID
@@ -72,7 +90,7 @@ class _HomePageState extends State<HomePage> {
         });
       });
     });
-    print("Getting data from firestore" + tokenId);
+    print("Getting tokenID from firestore : " + tokenId);
     // Username
     await FirebaseFirestore.instance
         .collection('Users')
@@ -131,7 +149,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             ListTile(
-              title: Text("Orders"),
+              title: Text("My Orders"),
               trailing: IconButton(
                 onPressed: () {
                   Get.to(MyOrders());

@@ -450,6 +450,7 @@ class _ServiceState extends State<Service> {
                           ),
                           InkWell(
                             onTap: () {
+                              print( "Before pressing SUBMIT - token ID : " + widget.tokenId);
                               if (brandValue != null &&
                                   capacityValue != null &&
                                   serviceValue != null) {
@@ -457,8 +458,9 @@ class _ServiceState extends State<Service> {
                                 sendNotification(
                                   tokenIdList: [widget.tokenId],
                                   heading: "Service Request",
-                                  contents: "A service request from the customer",
-                                ).then((value) => Get.back());
+                                  contents:
+                                      "A service request from the customer",
+                                );
                               } else {
                                 showDialog(
                                   context: context,

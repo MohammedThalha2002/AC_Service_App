@@ -265,9 +265,8 @@ class _ComplaintsState extends State<Complaints> {
                                   sendNotification(
                                     tokenIdList: [widget.tokenId],
                                     heading: "Complaint",
-                                    contents:
-                                        "A Complaint from the customer",
-                                  ).then((value) => Get.back());
+                                    contents: "A Complaint from the customer",
+                                  );
                                 } else {
                                   showDialog(
                                     context: context,

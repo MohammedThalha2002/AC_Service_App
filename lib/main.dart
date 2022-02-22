@@ -26,11 +26,8 @@ class _MyAppState extends State<MyApp> {
   String tokenId = "";
   @override
   void initState() {
-    super.initState();
     configOneSignel();
-    // .then(
-    //   (value) => saveTokenId(),
-    // );
+    super.initState();
   }
 
   Future<void> configOneSignel() async {
@@ -47,17 +44,6 @@ class _MyAppState extends State<MyApp> {
     tokenId = status!.userId!;
     print("Token Id of this Device : " + tokenId);
   }
-  
-  // ****************************** 
-  // Only for the ADMIN
-  // ******************************
-
-  // Future saveTokenId() async {
-  //   await FirebaseFirestore.instance.collection("admin").doc("admin").set({
-  //     "tokenId": tokenId,
-  //   });
-  //    print("Token Id is updated to the firestore : " + tokenId);
-  // }
 
   // This widget is the root of your application.
   @override

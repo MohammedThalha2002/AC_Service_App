@@ -31,7 +31,7 @@ class _OrdersState extends State<Orders> {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           title: Text(
-            "Your Orders",
+            "Delivery Orders",
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 24,

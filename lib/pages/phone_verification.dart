@@ -48,10 +48,21 @@ class _phoneVerificationState extends State<phoneVerification> {
                 "name": widget.name,
                 "phoneNumber": widget.phoneNumber,
               });
-              Get.snackbar(
-                "AUTOFILLING...",
-                "",
-                snackPosition: SnackPosition.BOTTOM,
+              Get.bottomSheet(
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    color: Colors.blueAccent,
+                    child: Text(
+                      "AUTOFILL...",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
               );
               Navigator.pushAndRemoveUntil(
                   context,

@@ -450,7 +450,7 @@ class _InstallationState extends State<Installation> {
                                   heading: "Installation Request",
                                   contents:
                                       "An Installation request from the customer",
-                                ).then((value) => Get.back());
+                                );
                               } else {
                                 showDialog(
                                   context: context,
