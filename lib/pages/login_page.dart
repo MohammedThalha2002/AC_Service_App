@@ -1,4 +1,7 @@
+import 'package:ac_service_app/backend/google-sign-in.dart';
+import 'package:ac_service_app/pages/home_page.dart';
 import 'package:ac_service_app/pages/phone_verification.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -48,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 10,
                 ),
                 Text(
-                  "LOGIN",
+                  "SIGN IN",
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
@@ -99,12 +102,11 @@ class _LoginPageState extends State<LoginPage> {
                     },
                   ),
                 ),
-                Spacer(),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(
-                      horizontal: 60,
-                      vertical: 15,
+                      horizontal: 50,
+                      vertical: 10,
                     ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
@@ -153,6 +155,86 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(
                   height: 10,
+                ),
+                Spacer(),
+                Text("or"),
+                SizedBox(
+                  height: 8,
+                ),
+                Text(
+                  "Sign in with",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.white,
+                    fixedSize:
+                        Size(MediaQuery.of(context).size.width * 0.7, 50),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 10,
+                    ),
+                    elevation: 10,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  onPressed: () async {
+                    try {
+                      signInWithGoogle().then((value) async {
+                        if (value.user != null) {
+                          await FirebaseFirestore.instance
+                              .collection("Users")
+                              .doc(value.user!.uid)
+                              .collection("Details")
+                              .doc("details")
+                              .set({
+                            "name": value.user!.displayName.toString(),
+                            "phoneNumber": value.user!.phoneNumber.toString(),
+                          }).then(
+                            (value) => Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomePage()),
+                                (route) => false),
+                          );
+                        }
+                      });
+                    } catch (e) {
+                      Get.snackbar(
+                        "Error",
+                        "Something went wrong. Please check your connection",
+                      );
+                    }
+                  },
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        "assets/google-logo.png",
+                        height: 35,
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text(
+                        "Sign in with Google",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
                 ),
               ],
             ),
